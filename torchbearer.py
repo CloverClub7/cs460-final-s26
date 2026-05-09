@@ -2,8 +2,8 @@
 CS 460 – Algorithms: Final Programming Assignment
 The Torchbearer
 
-Student Name: ___________________________
-Student ID:   ___________________________
+Student Name: Owen Zhang
+Student ID:   131832646
 
 INSTRUCTIONS
 ------------
@@ -31,10 +31,21 @@ def explain_problem():
     str
         Your Part 1 README answers, written as a string.
         Must match what you wrote in README Part 1.
-
-    TODO
     """
-    return "TODO"
+
+    explaination = '''Since there are multiple targets we must visit before we 
+                      can go to the exit node,a single shortest-path run will 
+                      not yield the best route from S to all targets then to 
+                      T. We would need to plan and note several routes from S 
+                      to the multiple targets, from each target to every other 
+                      target, and from every target to T, or the inter-location 
+                      costs. Then, we must Decide which permutation of the 
+                      order of relic nodes visited uses the least fuel. 
+                      Furthermore, Every permutation of relic nodes must be 
+                      considered and greedy by itself can't work since choosing 
+                      the best node at one instance might create a longer 
+                      overall path.'''
+    return explaination
 
 
 # =============================================================================
@@ -53,10 +64,13 @@ def select_sources(spawn, relics, exit_node):
     -------
     list[node]
         No duplicates. Order does not matter.
-
-    TODO
     """
-    pass
+
+    sources = [spawn]
+    # Assumes that relic list does not have duplicates
+    # If so we can convert to set then back to list... but ion wanna for now
+    sources = sources + relics
+    return sources
 
 
 def run_dijkstra(graph, source):
@@ -72,10 +86,36 @@ def run_dijkstra(graph, source):
     dict[node, float]
         Minimum cost from source to every node in graph.
         Unreachable nodes map to float('inf').
-
-    TODO
     """
-    pass
+    
+    priority_queue = []
+    costs = {}
+
+    # Make costs dictionary with every node in graph
+    for node in graph:
+        costs[node] = float('inf')
+
+    costs[source] = 0
+    heapq.heappush(priority_queue, (0, source))
+
+    # Process from source node to every other reachable node
+    while priority_queue:
+        cost, current_node = heapq.heappop(priority_queue)
+
+        # Skip of cost is already more than already computed
+        if cost > costs[current_node]:
+            continue
+
+        # Visit all reachable nodes from source
+        for destination_node, destination_cost in graph[current_node]:
+            new_cost = costs[current_node] + destination_cost
+
+            # Update if path of less cost is found
+            if new_cost < costs[destination_node]:
+                costs[destination_node] = new_cost
+                heapq.heappush(priority_queue, (costs[destination_node], destination_node))
+
+    return costs
 
 
 def precompute_distances(graph, spawn, relics, exit_node):
@@ -92,10 +132,17 @@ def precompute_distances(graph, spawn, relics, exit_node):
     dict[node, dict[node, float]]
         Nested structure supporting dist_table[u][v] lookups
         for every source u your design requires.
-
-    TODO
     """
-    pass
+    distances_table = {}
+    sources = select_sources(spawn, relics, exit_node)
+
+    # Run Dijkstra's for every source
+    for source in sources:
+        distances = run_dijkstra(graph, source)
+        distances_table[source] = distances
+
+    return distances_table
+
 
 
 # =============================================================================

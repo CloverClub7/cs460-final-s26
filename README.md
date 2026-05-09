@@ -1,7 +1,7 @@
 # The Torchbearer
 
-**Student Name:** ___________________________
-**Student ID:** ___________________________
+**Student Name:** Owen Zhang
+**Student ID:** 131832646
 **Course:** CS 460 – Algorithms | Spring 2026
 
 > This README is your project documentation. Write it the way a developer would document
@@ -17,13 +17,13 @@
 > per question. Each bullet should be 1-2 sentences max.
 
 - **Why a single shortest-path run from S is not enough:**
-  _Your answer here._
+  Since there are multiple targets we must visit before we can go to the exit node, a single shortest-path run will not yield the best route from S to all targets then to T. We would need to plan and note several routes from S to the multiple targets, from each target to every other target, and from every target to T, or the inter-location costs.
 
 - **What decision remains after all inter-location costs are known:**
-  _Your answer here._
+  Decide which permutation of the order of relic nodes visited uses the least fuel. 
 
 - **Why this requires a search over orders (one sentence):**
-  _Your answer here._
+  Every permutation of relic nodes must be considered and greedy by itself can't work since choosing the best node at one instance might create a longer overall path.
 
 ---
 
@@ -35,8 +35,8 @@
 
 | Source Node Type | Why it is a source |
 |---|---|
-| _node type_ | _one-line reason_ |
-| _node type_ | _one-line reason_ |
+| Starting Node | Path must be computed starting from here, so one inter-location cost starting from S must be chosen. |
+| Relic Node | Path must visit all relic nodes, so one inter-location cost from each relic nodes must be chosen. |
 
 ### Part 2b: Distance Storage
 
@@ -44,20 +44,20 @@
 
 | Property | Your answer |
 |---|---|
-| Data structure name | |
-| What the keys represent | |
-| What the values represent | |
-| Lookup time complexity | |
-| Why O(1) lookup is possible | |
+| Data structure name | Dictionary |
+| What the keys represent | Source Node |
+| What the values represent | Table of pre-computed least costs to get to every other node, excluding S |
+| Lookup time complexity | O(1) |
+| Why O(1) lookup is possible | Dictionaries use hashing with keys to acheive O(1) lookups |
 
 ### Part 2c: Precomputation Complexity
 
 > State the total complexity and show the arithmetic. Two to three lines max.
 
-- **Number of Dijkstra runs:** _your answer_
-- **Cost per run:** _your answer_
-- **Total complexity:** _your answer_
-- **Justification (one line):** _your answer_
+- **Number of Dijkstra runs:** n + 1, where n is the number of relic nodes. Plus 1 for S.
+- **Cost per run:** O((V + E)log V)
+- **Total complexity:** O(n(V + E)log V)
+- **Justification (one line):** O((V + E)log V) cost is ran n + 1 times, 1 is dropped per big-O.
 
 ---
 
