@@ -3,17 +3,9 @@
 **Student Name:** Owen Zhang
 **Student ID:** 131832646
 
-> Instructions: Write at least four dated entries. Required entry types are marked below.
-> Two to five sentences per entry is sufficient. Write entries as you go, not all in one
-> sitting. Graders check that entries reflect genuine work across multiple sessions.
-> Delete all blockquotes before submitting.
-
 ---
 
 ## Entry 1 – [05.07.2026]: Initial Plan
-
-> Required. Write this before writing any code. Describe your plan: what you will
-> implement first, what parts you expect to be difficult, and how you plan to test.
 
 I think I will implement this step-by-step, as this way will probably be the least 
 confusing. So we'll get the values, compute distances, then sort and find the best 
@@ -26,9 +18,6 @@ in my own values as well.
 ---
 
 ## Entry 2 – [05.08.2026]: [Short description]
-
-> Required. At least one entry must describe a bug, wrong assumption, or design change
-> you encountered. Describe what went wrong and how you resolved it.
 
 Implemented the Djikstra part to find shortest runs for all nodes to all other nodes. 
 This part seemed pretty straightforward, so deciding which run is the best might 
@@ -46,9 +35,6 @@ this assumption, finishing the part became much easier.
 
 ## Entry 4 – [05.12.2026]: Post-Implementation Reflection
 
-> Required. Written after your implementation is complete. Describe what you would
-> change or improve given more time.
-
 Not sure what I would change even if given more time. I noticed that the total 
 complexity of the algorithm isn't great, with the route decision part possibly taking 
 O(k!) time. Djikstra's is Djikstra's so I think if there are any improvements to be 
@@ -57,8 +43,6 @@ made it'll be in the decision part.
 ---
 
 ## Final Entry – [05.12.2026]: Time Estimate
-
-> Required. Estimate minutes spent per part. Honesty is expected; accuracy is not graded.
 
 | Part | Estimated Hours |
 |---|---|

@@ -4,17 +4,10 @@
 **Student ID:** 131832646
 **Course:** CS 460 – Algorithms | Spring 2026
 
-> This README is your project documentation. Write it the way a developer would document
-> their design decisions , bullet points, brief justifications, and concrete examples where
-> required. You are not writing an essay. You are explaining what you built and why you built
-> it that way. Delete all blockquotes like this one before submitting.
-
 ---
 
 ## Part 1: Problem Analysis
 
-> Document why this problem is not just a shortest-path problem. Three bullet points, one
-> per question. Each bullet should be 1-2 sentences max.
 
 - **Why a single shortest-path run from S is not enough:**
   - Since there are multiple targets we must visit before we can go to the exit node, a single 
@@ -35,16 +28,12 @@
 
 ### Part 2a: Source Selection
 
-> List the source node types as a bullet list. For each, one-line reason.
-
 | Source Node Type | Why it is a source |
 |---|---|
 | Starting Node | Path must be computed starting from here, so one inter-location cost starting from S must be chosen. |
 | Relic Node | Path must visit all relic nodes, so one inter-location cost from each relic nodes must be chosen. |
 
 ### Part 2b: Distance Storage
-
-> Fill in the table. No prose required.
 
 | Property | Your answer |
 |---|---|
@@ -56,8 +45,6 @@
 
 ### Part 2c: Precomputation Complexity
 
-> State the total complexity and show the arithmetic. Two to three lines max.
-
 - **Number of Dijkstra runs:** n + 1, where n is the number of relic nodes. Plus 1 for S.
 - **Cost per run:** O((V + E)log V)
 - **Total complexity:** O(n(V + E)log V)
@@ -67,13 +54,7 @@
 
 ## Part 3: Algorithm Correctness
 
-> Document your understanding of why Dijkstra produces correct distances.
-> Bullet points and short sentences throughout. No paragraphs.
-
 ### Part 3a: What the Invariant Means
-
-> Two bullets: one for finalized nodes, one for non-finalized nodes.
-> Do not copy the invariant text from the spec.
 
 - **For nodes already finalized (in S):**
   - Finalised nodes in S have the shortest path from the source calculated.
@@ -82,8 +63,6 @@
   - Nodes not yet in S do not yet have the shortest distance from the source found, they may have longer distances stored.
 
 ### Part 3b: Why Each Phase Holds
-
-> One to two bullets per phase. Maintenance must mention nonnegative edge weights.
 
 - **Initialization : why the invariant holds before iteration 1:**
   - Before the first step, the source node is finalised with 0 in S.
@@ -100,8 +79,6 @@
 
 ### Part 3c: Why This Matters for the Route Planner
 
-> One sentence connecting correct distances to correct routing decisions.
-
 The routing decision chooses the shortest route based on the path distances, so distances need to be correct in order to 
 find a valid and optimal ordering of routes.
 
@@ -110,9 +87,6 @@ find a valid and optimal ordering of routes.
 ## Part 4: Search Design
 
 ### Why Greedy Fails
-
-> State the failure mode. Then give a concrete counter-example using specific node names
-> or costs (you may use the illustration example from the spec). Three to five bullets.
 
 - **The failure mode:** The least-cost route is not found.
 - **Counter-example setup:** Let the following table contain the cheapest inter-location travel costs.
@@ -130,8 +104,6 @@ find a valid and optimal ordering of routes.
 
 ### What the Algorithm Must Explore
 
-> One bullet. Must use the word "order."
-
 - Different orders of nodes (inter-location routes) and find the least-cost permutation.
 
 ---
@@ -140,9 +112,6 @@ find a valid and optimal ordering of routes.
 
 ### Part 5a: State Representation
 
-> Document the three components of your search state as a table.
-> Variable names here must match exactly what you use in torchbearer.py.
-
 | Component | Variable name in code | Data type | Description |
 |---|---|---|---|
 | Current location | current_loc | string | Current node the algorithm is at. |
@@ -150,8 +119,6 @@ find a valid and optimal ordering of routes.
 | Fuel cost so far | cost_so_far | int | The cost so far of the current run. |
 
 ### Part 5b: Data Structure for Visited Relics
-
-> Fill in the table.
 
 | Property | Your answer |
 |---|---|
@@ -163,8 +130,6 @@ find a valid and optimal ordering of routes.
 
 ### Part 5c: Worst-Case Search Space
 
-> Two bullets.
-
 - **Worst-case number of orders considered:** k!, where k is the number of relic nodes.
 - **Why:** In the worst-case, all orderings of k nodes need to be considered which is k! orderings.
 
@@ -174,23 +139,17 @@ find a valid and optimal ordering of routes.
 
 ### Part 6a: Best-So-Far Tracking
 
-> Three bullets.
-
 - **What is tracked:** cost_so_far
 - **When it is used:** to compare to the best cost at every recursion.
 - **What it allows the algorithm to skip:** skips routes that are guaranteed to cost more than what is stored in best.
 
 ### Part 6b: Lower Bound Estimation
 
-> Three bullets.
-
 - **What information is available at the current state:** the tenative cost of the current run and the best cost we've had so far.
 - **What the lower bound accounts for:** cost to the nearest unvisited relic node and the minimum cost from all remaining relic nodes to the exit node.
 - **Why it never overestimates:** choosing minimum costs nets us minamal total cost that doesn't exceed the actual remaining cost.
 
 ### Part 6c: Pruning Correctness
-
-> One to two bullets. Explain why pruning is safe.
 
 - If the cost so far is already greater than the currently stored cost, 
   there is no way for this route to be less than the current best.
@@ -199,8 +158,6 @@ find a valid and optimal ordering of routes.
 ---
 
 ## References
-
-> Bullet list. If none beyond lecture notes, write that.
 
 - Lecture notes
 - Python Sets: What, Why and How (https://labex.io/pythoncheatsheet/blog/python-sets-what-why-how)
