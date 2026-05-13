@@ -36,33 +36,38 @@ be the real challenge.
 
 ---
 
-## Entry 3 – [Date]: [Short description]
+## Entry 3 – [05.12.2026]: [Short description]
 
-_Your entry here._
+During part 3, I assumed that S had the results of all nodes (after all Dijkstra 
+instances were run) rather than just the results for the current node. After fixing 
+this assumption, finishing the part became much easier.
 
 ---
 
-## Entry 4 – [Date]: Post-Implementation Reflection
+## Entry 4 – [05.12.2026]: Post-Implementation Reflection
 
 > Required. Written after your implementation is complete. Describe what you would
 > change or improve given more time.
 
-_Your entry here._
+Not sure what I would change even if given more time. I noticed that the total 
+complexity of the algorithm isn't great, with the route decision part possibly taking 
+O(k!) time. Djikstra's is Djikstra's so I think if there are any improvements to be 
+made it'll be in the decision part.
 
 ---
 
-## Final Entry – [Date]: Time Estimate
+## Final Entry – [05.12.2026]: Time Estimate
 
 > Required. Estimate minutes spent per part. Honesty is expected; accuracy is not graded.
 
 | Part | Estimated Hours |
 |---|---|
 | Part 1: Problem Analysis | 1 |
-| Part 2: Precomputation Design | |
-| Part 3: Algorithm Correctness | |
-| Part 4: Search Design | |
-| Part 5: State and Search Space | |
-| Part 6: Pruning | |
-| Part 7: Implementation | |
-| README and DEVLOG writing | |
-| **Total** | |
+| Part 2: Precomputation Design | 1 |
+| Part 3: Algorithm Correctness | 1 |
+| Part 4: Search Design | 0.5 |
+| Part 5: State and Search Space | 2 |
+| Part 6: Pruning | 0.5 |
+| Part 7: Implementation | 2 |
+| README and DEVLOG writing | 1 |
+| **Total** | 9 |

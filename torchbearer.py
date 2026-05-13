@@ -33,19 +33,16 @@ def explain_problem():
         Must match what you wrote in README Part 1.
     """
 
-    explaination = '''Since there are multiple targets we must visit before we 
-                      can go to the exit node,a single shortest-path run will 
-                      not yield the best route from S to all targets then to 
-                      T. We would need to plan and note several routes from S 
-                      to the multiple targets, from each target to every other 
-                      target, and from every target to T, or the inter-location 
-                      costs. Then, we must Decide which permutation of the 
-                      order of relic nodes visited uses the least fuel. 
-                      Furthermore, Every permutation of relic nodes must be 
-                      considered and greedy by itself can't work since choosing 
-                      the best node at one instance might create a longer 
-                      overall path.'''
-    return explaination
+    part_1 = '''Why a single shortest-path run from S is not enough:\n
+                Since there are multiple targets we must visit before we can go to the exit node, a single shortest-path run will not yield the best route from S to all targets then to T.\n
+                We would need to plan and note several routes from S to the multiple targets, from each target to every other target, and from every target to T, or the inter-location costs.\n
+                \n
+                What decision remains after all inter-location costs are known:\n
+                Decide which permutation of the order of relic nodes visited uses the least fuel.\n
+                \n
+                Why this requires a search over orders:\n
+                Every permutation of relic nodes must be considered and greedy by itself can't work since choosing the best node at one instance might create a longer overall path.'''
+    return part_1
 
 
 # =============================================================================
@@ -157,9 +154,31 @@ def dijkstra_invariant_check():
         Your Part 3 README answers, written as a string.
         Must match what you wrote in README Part 3.
 
-    TODO
     """
-    return "TODO"
+    part_3 = '''Part 3a: What the Invariant Means\n
+                For nodes already finalized (in S):\n
+                Finalised nodes in S have the shortest path from the source calculated.\n
+                \n
+                For nodes not yet finalized (not in S):\n
+                Nodes not yet in S do not yet have the shortest distance from the source found, they may have longer distances stored.\n
+                \n
+                Part 3b: Why Each Phase Holds\n
+                \n
+                Initialization : why the invariant holds before iteration 1:\n
+                Before the first step, the source node is finalised with 0 in S.\n
+                This is correct as the cost from a node to itself is 0.\n
+                \n
+                Maintenance : why finalizing the min-dist node is always correct:\n
+                The min-dist node will have the smallest cost needed to reach it and other unfinalised nodes already cost as much or more than the min-dist node.\n
+                Since edge weights are nonnegative, other paths that go through another unfinalised node will have that weight added onto the total, producing a larger cost.\n
+                \n
+                Termination : what the invariant guarantees when the algorithm ends:\n
+                That for every node in S, the cost is the true shortest-path distance from the source to the node.\n
+                \n
+                Part 3c: Why This Matters for the Route Planner\n
+                \n
+                The routing decision chooses the shortest route based on the path distances, so distances need to be correct in order to find a valid and optimal ordering of routes.'''
+    return part_3
 
 
 # =============================================================================
@@ -174,9 +193,25 @@ def explain_search():
         Your Part 4 README answers, written as a string.
         Must match what you wrote in README Part 4.
 
-    TODO
     """
-    return "TODO"
+    part_4 = '''The failure mode: The least-cost route is not found.\n
+                Counter-example setup: Let the following table contain the cheapest inter-location travel costs.\n
+                \n
+                | From \ To | B   | C   | D   | T   |\n
+                |-----------|-----|-----|-----|-----|\n
+                | S         | 1   | 2   | 2   | --  |\n
+                | B         | --  | 100 | 100 | 1   |\n
+                | C         | 1   | --  | 100 | 1   |\n
+                | D         | 1   | 1   | --  | 100 |\n
+                \n
+                What greedy picks: [B, C, D, T], total: 1 + 100 + 100 + 100 = 301\n
+                What optimal picks: [D, C, B, T], total: 2 + 1 + 1 + 1 = 5\n
+                Why greedy loses: By choosing the best local option, it is barred from the best global route (better future choice).\n
+                \n
+                What the Algorithm Must Explore\n
+                Different orders of nodes (inter-location routes) and find the least-cost permutation.'''
+    
+    return part_4
 
 
 # =============================================================================
@@ -201,9 +236,12 @@ def find_optimal_route(dist_table, spawn, relics, exit_node):
         (minimum_fuel_cost, ordered_relic_list)
         Returns (float('inf'), []) if no valid route exists.
 
-    TODO
     """
-    pass
+    final_route = [float('inf'), []]
+    relics_remaining = set(relics)
+
+    _explore(dist_table, spawn, relics_remaining, [], 0, exit_node, final_route)
+    return final_route[0], final_route[1]
 
 
 def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
@@ -235,7 +273,33 @@ def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
     explaining why it is safe (cannot skip the optimal solution).
     This comment is graded.
     """
-    pass
+    if not relics_remaining:
+        total_cost = cost_so_far + dist_table[current_loc][exit_node]
+        if total_cost < best[0]:
+            best[0] = total_cost
+            best[1] = relics_visited_order + [exit_node]
+        return
+
+    # If the cost so far is already greater than the currently stored cost, 
+    # there is no way for this route to be less than the current best. Also 
+    # catches if no valid routes exist (float('inf') >= float('inf') = true).
+    if cost_so_far >= best[0]:
+        return
+
+    for relic in relics_remaining:
+        # Update
+        cost_so_far += dist_table[current_loc][relic]
+        relics_remaining.remove(relic)
+        relics_visited_order.append(relic)
+        
+        # Recurse
+        _explore(dist_table, relic, relics_remaining, relics_visited_order,
+                 cost_so_far, exit_node, best)
+        
+        # Backtrack
+        cost_so_far -= dist_table[current_loc][relic]
+        relics_remaining.add(relic)
+        relics_visited_order.pop()
 
 
 # =============================================================================
@@ -256,10 +320,11 @@ def solve(graph, spawn, relics, exit_node):
     tuple[float, list[node]]
         (minimum_fuel_cost, ordered_relic_list)
         Returns (float('inf'), []) if no valid route exists.
-
-    TODO
     """
-    pass
+    
+    dist_table = precompute_distances(graph, spawn, relics, exit_node)
+    route_tuple = find_optimal_route(dist_table, spawn, relics, exit_node)
+    return route_tuple
 
 
 # =============================================================================
